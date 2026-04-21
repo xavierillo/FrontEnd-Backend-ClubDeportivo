@@ -5,12 +5,12 @@ const env = require('../config/env');
 
 class User extends Model {
   async isPasswordValid(plainPassword) {
-    return bcrypt.compare(plainPassword, this.pass);
+    return bcrypt.compare(plainPassword, this.password);
   }
 
   toSafeJSON() {
     const values = { ...this.get() };
-    delete values.pass;
+    delete values.password;
     return values;
   }
 }
@@ -42,7 +42,7 @@ User.init(
         this.setDataValue('email', String(value || '').trim().toLowerCase());
       }
     },
-    pass: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -58,19 +58,32 @@ User.init(
         isIn: [['user', 'coach', 'admin']]
       }
     },
-    refresh_pass: {
+    must_change_password: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
     },
-    fecha_nacimiento: {
+    birth_date: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
-    otros: {
+    metadata: {
       type: DataTypes.JSON,
       allowNull: false,
-      defaultValue: {}
+      defaultValue: {
+        sports: []
+      },
+      validate: {
+        isValidMetadata(value) {
+          if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+            throw new Error('metadata must be a valid object');
+          }
+
+          if (value.sports && !Array.isArray(value.sports)) {
+            throw new Error('metadata.sports must be an array');
+          }
+        }
+      }
     }
   },
   {
@@ -78,20 +91,20 @@ User.init(
     modelName: 'User',
     tableName: 'users',
     defaultScope: {
-      attributes: { exclude: ['pass'] }
+      attributes: { exclude: ['password'] }
     },
     scopes: {
       withPassword: {
-        attributes: { include: ['pass'] }
+        attributes: { include: ['password'] }
       }
     },
     hooks: {
       async beforeCreate(user) {
-        user.pass = await bcrypt.hash(user.pass, env.bcryptSaltRounds);
+        user.password = await bcrypt.hash(user.password, env.bcryptSaltRounds);
       },
       async beforeUpdate(user) {
-        if (user.changed('pass')) {
-          user.pass = await bcrypt.hash(user.pass, env.bcryptSaltRounds);
+        if (user.changed('password')) {
+          user.password = await bcrypt.hash(user.password, env.bcryptSaltRounds);
         }
       }
     }
