@@ -166,7 +166,7 @@ Body:
 ```json
 {
   "email": "admin1@demo.cl",
-  "pass": "12345678"
+  "password": "12345678"
 }
 ```
 
@@ -271,8 +271,8 @@ const response = await fetch('http://localhost:3000/api/auth/login', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    email: 'usuario1@demo.cl',
-    pass: '12345678'
+    email: 'user1@demo.cl',
+    password: '12345678',
   })
 });
 

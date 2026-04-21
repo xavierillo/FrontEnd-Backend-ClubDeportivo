@@ -1,8 +1,8 @@
 const userRepository = require('../repositories/user.repository');
 const { signAccessToken } = require('../utils/jwt');
 
-async function login({ email, pass }) {
-  const user = await userRepository.findByEmail(email, { attributes: { include: ['pass'] } });
+async function login({ email, password }) {
+  const user = await userRepository.findByEmail(email, { attributes: { include: ['password'] } });
 
   if (!user) {
     const error = new Error('Credenciales inválidas.');
@@ -10,7 +10,7 @@ async function login({ email, pass }) {
     throw error;
   }
 
-  const isValid = await user.isPasswordValid(pass);
+  const isValid = await user.isPasswordValid(password);
   if (!isValid) {
     const error = new Error('Credenciales inválidas.');
     error.statusCode = 401;

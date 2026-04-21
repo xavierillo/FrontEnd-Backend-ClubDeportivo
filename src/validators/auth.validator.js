@@ -5,8 +5,8 @@ function validateLoginPayload(payload = {}) {
     errors.email = 'El correo es obligatorio.';
   }
 
-  if (!payload.pass || !String(payload.pass).trim()) {
-    errors.pass = 'La contraseña es obligatoria.';
+  if (!payload.password || !String(payload.password).trim()) {
+    errors.password = 'La contraseña es obligatoria.';
   }
 
   return {
