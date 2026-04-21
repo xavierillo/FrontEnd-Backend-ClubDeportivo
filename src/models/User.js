@@ -18,7 +18,7 @@ class User extends Model {
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: sequelize.getDialect() === 'mysql' ? DataTypes.INTEGER.UNSIGNED : DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
