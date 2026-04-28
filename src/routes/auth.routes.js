@@ -6,6 +6,8 @@ const router = Router();
 
 router.post('/login', authController.login);
 router.post('/register', authController.registerUser);
-router.get('/me', authenticate, authController.me);
+router.get('/me', authMiddleware, authController.me);
+router.put('/me', authMiddleware, authController.updateMe);
+router.put('/me/password', authMiddleware, authController.changePassword);
 
 module.exports = router;
