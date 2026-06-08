@@ -5,6 +5,8 @@ const env = require('./config/env');
 const sequelize = require('./config/database');
 require('./models');
 const { seedUsers } = require('./seeders/user.seeder');
+const { seedSports } = require('./seeders/sport.seeder');
+
 
 async function bootstrap() {
   try {
@@ -15,6 +17,7 @@ async function bootstrap() {
     await sequelize.authenticate();
     await sequelize.sync();
     await seedUsers();
+    await seedSports();
 
     app.listen(env.port, () => {
       console.log(`Servidor corriendo en ${env.appUrl}`);
