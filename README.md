@@ -355,3 +355,14 @@ DB_PORT=3306
 DB_NAME=frontend_users_db
 DB_USER=club_user
 DB_PASSWORD=club_pass
+
+
+
+sudo docker compose down -v
+sudo docker compose up -d --build
+
+Luego revisar:
+
+sudo docker ps
+sudo docker logs club_mariadb
+sudo docker logs club_backend
