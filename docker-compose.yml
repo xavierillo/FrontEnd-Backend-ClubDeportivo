@@ -7,7 +7,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     restart: always
     command: npm run dev
 
@@ -17,13 +18,14 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: club_deportivo
+      MYSQL_DATABASE: frontend_users_db
       MYSQL_USER: club_user
       MYSQL_PASSWORD: club_pass
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
 
 volumes:
   mariadb_data:
