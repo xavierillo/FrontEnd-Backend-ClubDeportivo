@@ -7,7 +7,6 @@ require('./models');
 const { seedUsers } = require('./seeders/user.seeder');
 const { seedSports } = require('./seeders/sport.seeder');
 
-
 async function bootstrap() {
   try {
     if (env.db.dialect === 'sqlite') {
@@ -19,8 +18,10 @@ async function bootstrap() {
     await seedUsers();
     await seedSports();
 
-    app.listen(env.port, () => {
-      console.log(`Servidor corriendo en ${env.appUrl}`);
+    const HOST = env.host || '0.0.0.0';
+
+    app.listen(env.port, HOST, () => {
+      console.log(`Servidor corriendo en http://${HOST}:${env.port}`);
       console.log(`Base de datos activa con dialecto: ${env.db.dialect}`);
     });
   } catch (error) {
