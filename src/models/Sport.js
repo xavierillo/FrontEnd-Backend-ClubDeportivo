@@ -1,5 +1,4 @@
 // src/models/sport.js
-
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
 
