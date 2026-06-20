@@ -41,10 +41,34 @@ ClassSchedule.belongsTo(SportRoom, {
     as: 'sportRoom'
 });
 
+
+const Reservation = require('./Reservation');
+
+User.hasMany(Reservation, {
+  foreignKey: 'user_id',
+  as: 'reservations'
+});
+
+Reservation.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user'
+});
+
+ClassSchedule.hasMany(Reservation, {
+  foreignKey: 'class_schedule_id',
+  as: 'reservations'
+});
+
+Reservation.belongsTo(ClassSchedule, {
+  foreignKey: 'class_schedule_id',
+  as: 'classSchedule'
+});
+
 module.exports = {
     Sport,
     Room,
     SportRoom,
     ClassSchedule,
-    User
+    User,
+    Reservation
 };
