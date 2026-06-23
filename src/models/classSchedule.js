@@ -1,4 +1,4 @@
-// src/models/classSchedule.js
+// src/models/ClassSchedule.js
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
 
