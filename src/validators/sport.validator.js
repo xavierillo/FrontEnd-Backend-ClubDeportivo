@@ -1,31 +1,37 @@
-// src/validators/sport.validator.js
-
 function validateSportPayload(payload, options = {}) {
     const errors = {};
     const data = {};
     const isPartial = options.partial === true;
 
     if (!isPartial || payload.name !== undefined) {
-        if (!payload.name || String(payload.name).trim().length < 3) {
+        const name = String(payload.name || '').trim();
+
+        if (!name || name.length < 3) {
             errors.name = 'El nombre del deporte es obligatorio y debe tener al menos 3 caracteres.';
+        } else if (name.length > 100) {
+            errors.name = 'El nombre del deporte no puede superar los 100 caracteres.';
         } else {
-            data.name = String(payload.name).trim();
+            data.name = name;
         }
     }
 
     if (!isPartial || payload.objective !== undefined) {
-        if (!payload.objective || String(payload.objective).trim().length < 5) {
+        const objective = String(payload.objective || '').trim();
+
+        if (!objective || objective.length < 5) {
             errors.objective = 'El objetivo es obligatorio y debe tener al menos 5 caracteres.';
+        } else if (objective.length > 255) {
+            errors.objective = 'El objetivo no puede superar los 255 caracteres.';
         } else {
-            data.objective = String(payload.objective).trim();
+            data.objective = objective;
         }
     }
 
     if (!isPartial || payload.duration !== undefined) {
         const duration = Number(payload.duration);
 
-        if (!duration || Number.isNaN(duration) || duration < 1) {
-            errors.duration = 'La duración debe ser un número mayor a 0.';
+        if (!Number.isInteger(duration) || duration < 1) {
+            errors.duration = 'La duración debe ser un número entero mayor a 0.';
         } else {
             data.duration = duration;
         }
